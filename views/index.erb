@@ -1,0 +1,22 @@
+<h1>How many holds are on this book at <a href="http://sfpl.org">SFPL?</a></h1>
+
+Enter a title, author, or keyword
+<form action="/" method="post">
+  <input type="text" name="book">
+  <button type = "submit" class = "btn">Search!</button>
+</form>
+<br>
+<% if defined?(@book) %>
+  You searched for: "<%= @book %>"
+  <% end %>
+<br>
+<br>
+<% if defined?(@books) %>
+      <% @books.each do |key, value| %>
+    <%= key %>
+    <br>
+    <%= value %>
+  <% end %>
+  <br>
+  <br>
+<% end %>
