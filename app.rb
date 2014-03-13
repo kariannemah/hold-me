@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'nokogiri'
 require 'mechanize'
+require 'open-uri'
 
 get '/' do
   erb :index
@@ -23,7 +24,7 @@ post '/' do
   result.links.each do |link|
     if link.text.include? 'Is it available?'
       substring = link.href
-      url = homepage + substring
+      url = homepage + substring + '/'
       book_links << url
     end
   end
