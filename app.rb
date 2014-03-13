@@ -30,11 +30,12 @@ post '/' do
   end
 
   @books = {}
+  @urls = {}
   book_links.each do |url|
     page = Nokogiri::HTML(open(url))
-    if ! page.css('span.bibHolds').text.empty?
-      @books[page.css('td.bibInfoData').text.split("\n")[1]] = page.css('span.bibHolds').text
-    end
+    title = page.css('td.bibInfoData').text.split("\n")[1]
+    @books[title] = page.css('span.bibHolds').text
+    @urls[title] = url
   end
 
   erb :index

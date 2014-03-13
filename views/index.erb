@@ -1,6 +1,8 @@
-<h1>How many holds are on this book at <a href="http://sfpl.org">SFPL?</a></h1>
+<h1>Hold me, I'm a book.</h1>
+<h2>How many holds are on this book at <a href="http://sfpl.org">SFPL?</a></h2>
 
-Enter a title, author, or keyword
+
+Enter a title, author, or keyword(s):
 <form action="/" method="post">
   <input type="text" name="book">
   <button type = "submit" class = "btn">Search!</button>
@@ -11,12 +13,17 @@ Enter a title, author, or keyword
   <% end %>
 <br>
 <br>
+<ul>
 <% if defined?(@books) %>
       <% @books.each do |key, value| %>
-    <%= key %>
-    <br>
-    <%= value %>
+    <li>
+      <a href=<%= @urls[key] %>"><%= key %></a>
+      <br>
+      <span style="background-color: #44FFB4"><%= value %></span>
+    </li>
   <% end %>
-  <br>
-  <br>
 <% end %>
+</ul>
+
+ <footer>* The title might not be in the SFPL system. In that case, check <a href="http://csul.iii.com/">Link+</a>, a union catalog of contributed holdings from participating libraries in California and Nevada.
+ </footer>
