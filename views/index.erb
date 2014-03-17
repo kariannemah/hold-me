@@ -1,7 +1,8 @@
+<div class="container">
 <div id="text">
 
 <h2>Hold me, I'm a book.*</h2>
-
+<div id="search-field">
 Enter a title, author, or keyword(s):
 <form action="/" method="post">
   <input type="text" name="book">
@@ -13,6 +14,7 @@ Enter a title, author, or keyword(s):
   <br>
 How many holds are on this book or those like it?
 <% end %>
+</div>
 <br>
 <ul>
 <% if defined?(@books) %>
@@ -26,19 +28,22 @@ How many holds are on this book or those like it?
             <span><strong><%= value %></strong></span>
           <% end %>
         </li>
-
   <% end %>
 <% end %>
 </ul>
 
+<div id="search-field">
 <% if defined?(@book) %>
 Don't see the book you're looking for? <a href=<%=@link_url %>>Search for "<%= @book %>" on Link+.</a>**
 <% end %>
+</div>
+</div>
 
-
-<footer>
+<div id="text">
+<hr>
   <p> * at the <a href="http://sfpl.org">San Francisco Public Library</a><br>
-
+  </p>
+  <p>
  **The title you've requested may not be in circulation at SFPL. (It happens!) If that's the case, try <a href="http://csul.iii.com/">Link+</a>.
   By definition, Link+ is a "union catalog of contributed holdings from participating libraries in CA and NV." But it's better known
    as a lifeline to rogue researchers near and far.
@@ -47,5 +52,5 @@ Don't see the book you're looking for? <a href=<%=@link_url %>>Search for "<%= @
  <p>
    Brought to you by <a href="http://twitter.com/kari_mah">Kari Mah</a>, inveterate requester of library books.
  </p>
-</footer>
+</div>
 </div>

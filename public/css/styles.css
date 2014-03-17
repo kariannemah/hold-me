@@ -1,13 +1,15 @@
-.container {max-width: 800px; margin: 0 auto;}
+.container {max-width: 800px; margin: 0 auto;border: 8px #C9C5DB solid;}
 
-body {font-family: Libre Baskerville, Baskerville, Georgia, serif; font-size: 18px; background: #fff; color: #333; border: 8px #C9C5DB solid; margin: 0px; padding: 20px 20px 50px 20px; }
+body {font-family: Libre Baskerville, Baskerville, Georgia, serif; font-size: 18px; background: #fff; color: #333; margin: 0px; padding: 20px 20px 50px 20px; }
+
+h2, #search-field {
+    text-align: center;
+}
 
 #text {
     margin: 0 auto;
-    width: 75%;
+    width: 90%;
 }
-
-h2 {font-family: Helvetica, Arial, sans-serif;}
 
 ul li {padding-bottom: 6px; line-height: 24px;}
 
@@ -18,9 +20,6 @@ a:active {color: #C9C5DB;}
 
 span {background-color: #C9C5DB}
 
-footer {
-    padding-top: 5px;
-    margin-top: 40px;
-    border-top: 1px solid #C9C5DB;
-    height: 125px;
-}
+hr { display: block; height: 1px;
+    border: 0; border-top: 1px solid #C9C5DB;
+    margin: 1em 0; padding: 0; }
