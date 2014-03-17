@@ -1,8 +1,13 @@
 .container {max-width: 800px; margin: 0 auto;}
 
-body {font-family: Libre Baskerville, Baskerville, Georgia, serif; font-size: 18px; background: #fff; color: #333;  border: 10px #C9C5DB solid; margin: 0px; padding: 20px 20px 100px 20px; }
-h1, h2, h3, h4, h5, h6 {font-family: Helvetica, Arial, sans-serif;}
-ul, ol {text-indent: 0; margin: 0; padding-left: 20px;}
+body {font-family: Libre Baskerville, Baskerville, Georgia, serif; font-size: 18px; background: #fff; color: #333; margin: 0px; padding: 20px 20px 50px 20px; }
+
+#text {
+    margin: 0 auto;
+    width: 75%;
+}
+
+h2 {font-family: Helvetica, Arial, sans-serif;}
 
 ul li {padding-bottom: 6px; line-height: 24px;}
 
@@ -12,4 +17,10 @@ a:hover {color: #C9C5DB;}
 a:active {color: #C9C5DB;}
 
 span {background-color: #C9C5DB}
-footer {padding-top: 5px; margin-top: 40px; border-top: 1px solid #C9C5DB; height: 125px;}
+
+footer {
+    padding-top: 5px;
+    margin-top: 40px;
+    border-top: 1px solid #C9C5DB;
+    height: 125px;
+}
