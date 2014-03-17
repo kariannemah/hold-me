@@ -1,56 +1,57 @@
 <div class="container">
-<div id="text">
+  <div id="text">
 
-<h2>Hold me, I'm a book*</h2>
-<div id="search-field">
-Enter a title, author, or keyword(s):
-<form action="/" method="post">
-  <input type="text" name="book">
-  <button type="submit" class="btn">Search!</button>
-</form>
-<br>
-<% if defined?(@book) %>
-  You searched for: "<%= @book %>"
+  <h2>Hold me, I'm a book*</h2>
+  <div id="search-field">
+  Enter a title, author, or keyword(s):
+  <form action="/" method="post">
+    <input type="text" name="book">
+    <button type="submit" class="btn">Search!</button>
+  </form>
   <br>
-How many holds are on this book or those like it?
-<% end %>
-</div>
-<br>
-<ul>
-<% if defined?(@books) %>
+  <% if defined?(@book) %>
+    You searched for: "<%= @book %>"
+    <br>
+  How many holds are on this book or those like it?
+  <% end %>
+  </div>
+  <br>
+  <ul>
+    <% if defined?(@books) %>
       <% @books.each do |key, value| %>
         <li>
-        <a href=<%= @urls[key] %>"><%= key %></a>
-          <% if value == '' %><br>
-            <strong>No holds</strong>
+        <a href=<%= @urls[key] %>"><%= key %></a><br>
+          <% if key.split.include?('[electronic') && value == '' %>
+            Check Overdrive for possible holds.
+          <% elsif value == '' %>
+            No holds: Check the shelves!
           <% else %>
-            <br>
-            <span><strong><%= value %></strong></span>
+            <span><%= value %></span>
           <% end %>
         </li>
-  <% end %>
-<% end %>
-</ul>
+       <% end %>
+     <% end %>
+  </ul>
 
-<div id="search-field">
-<% if defined?(@book) %>
-Don't see the book you're looking for? <a href=<%=@link_url %>>Search for "<%= @book %>" on Link+.</a>**
-<% end %>
-</div>
-</div>
+    <div id="search-field">
+      <% if defined?(@book) %>
+        Don't see the book you're looking for? <a href=<%=@link_url %>>Search for "<%= @book %>" on Link+.</a>**
+      <% end %>
+    </div>
+  </div>
 
-<div id="text">
-<hr>
-  <p> * at the <a href="http://sfpl.org">San Francisco Public Library</a><br>
-  </p>
-  <p>
- **The title or author you've requested may not be in circulation at the SFPL. It happens! If that's the case, try <a href="http://csul.iii.com/">Link+</a>.
-  By definition, Link+ is a "union catalog of contributed holdings from participating libraries in CA and NV." But it's better known
-   as a lifeline to rogue researchers near and far.
- </p>
+  <div id="text">
+    <hr>
+    <p> * at the <a href="http://sfpl.org">San Francisco Public Library</a><br>
+    </p>
+    <p>
+   **The title or author you've requested may not be in circulation at the SFPL. It happens! If that's the case, try <a href="http://csul.iii.com/">Link+</a>.
+    By definition, Link+ is a "union catalog of contributed holdings from participating libraries in CA and NV." But it's better known
+     as a lifeline to rogue researchers near and far.
+   </p>
 
- <p>
-   Brought to you by <a href="http://twitter.com/kari_mah">Kari Mah</a>, inveterate requester of library books.
- </p>
-</div>
+   <p>
+     Brought to you by <a href="http://twitter.com/kari_mah">Kari Mah</a>, inveterate requester of library books.
+   </p>
+  </div>
 </div>

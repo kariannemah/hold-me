@@ -12,16 +12,10 @@ end
 post '/' do
   @book = params[:book]
 
-  link_agent = Mechanize.new
-  link_page = link_agent.get('http://csul.iii.com/')
-  link_agent.page.forms[0].fields[1].value = @book
-  link_result = link_agent.page.forms[0].submit
-  @link_url = link_result.uri
-
   agent = Mechanize.new
   page = agent.get('http://sfpl.org')
-  agent.page.forms[0].fields[1].value = @book
-  result = agent.page.forms[0].submit
+  page.forms[0].fields[1].value = @book
+  result = page.forms[0].submit
   homepage = "http://sflib1.sfpl.org"
 
   @books = {}
@@ -51,6 +45,12 @@ post '/' do
     @books[title] = page.css('span.bibHolds').text
     @urls[title] = url
   end
+
+  link_agent = Mechanize.new
+  link_page = link_agent.get('http://csul.iii.com/')
+  link_page.forms[0].fields[1].value = @book
+  link_result = link_page.forms[0].submit
+  @link_url = link_result.uri
 
   erb :index
 end
