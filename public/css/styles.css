@@ -1,6 +1,6 @@
 .container {max-width: 800px; margin: 0 auto;}
 
-body {font-family: Libre Baskerville, Baskerville, Georgia, serif; font-size: 18px; background: #fff; color: #333; margin: 0px; padding: 20px 20px 50px 20px; }
+body {font-family: Libre Baskerville, Baskerville, Georgia, serif; font-size: 18px; background: #fff; color: #333; border: 8px #C9C5DB solid; margin: 0px; padding: 20px 20px 50px 20px; }
 
 #text {
     margin: 0 auto;
