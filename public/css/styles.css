@@ -16,6 +16,7 @@ ul li {padding-bottom: 6px; line-height: 24px;}
 p a, a {color: #333; text-decoration: none; padding-bottom: 0px; border-bottom: 2px #C9C5DB solid;}
 p a:visted {color: #ff00ff;}
 a:active {color: #C9C5DB;}
+a:hover {color: #C9C5DB;}
 
 span {background-color: #C9C5DB}
 
