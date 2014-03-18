@@ -36,12 +36,12 @@ post '/' do
 
     book_links.each do |url|
       page = Nokogiri::HTML(open(url))
-      title = page.css('td.bibInfoData').text.split("\n")[1]
+      title = page.css('td.bibInfoData').text.split("\n")[1].to_sym
       @books[title] = page.css('span.bibHolds').text
       @urls[title] = url
     end
   else
-    title = page.css('td.bibInfoData').text.split("\n")[1]
+    title = page.css('td.bibInfoData').text.split("\n")[1].to_sym
     @books[title] = page.css('span.bibHolds').text
     @urls[title] = url
   end

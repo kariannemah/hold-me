@@ -19,8 +19,8 @@
     <% if defined?(@books) %>
       <% @books.each do |key, value| %>
         <li>
-        <a href=<%= @urls[key] %>"><%= key %></a><br>
-          <% if key.split.include?('[electronic') && value == '' %>
+        <a href=<%= @urls[key].to_s %>"><%= key.to_s %></a><br>
+          <% if key.to_s.split.include?('[electronic') && value == '' %>
             Check Overdrive for possible holds.
           <% elsif value == '' %>
             No holds: Check the shelves!
