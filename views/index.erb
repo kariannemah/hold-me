@@ -1,8 +1,8 @@
 <div class="container">
-  <div id="text">
+  <div class="text">
 
   <h2>Hold me, I'm a book*</h2>
-  <div id="search-field">
+  <div class="search">
   Enter a title, author, or keyword(s):
   <form action="/" method="post">
     <input type="text" name="book">
@@ -32,14 +32,14 @@
      <% end %>
   </ul>
 
-    <div id="search-field">
+    <div class="search">
       <% if defined?(@book) %>
         Don't see the book you're looking for? <a href=<%=@link_url %>>Search for "<%= @book %>" on Link+.</a>**
       <% end %>
     </div>
   </div>
 
-  <div id="text">
+  <div class="text">
     <hr>
     <p> * at the <a href="http://sfpl.org">San Francisco Public Library</a><br>
     </p>
