@@ -37,7 +37,9 @@ input, input:focus {
 input {
     animation: blink-empty 1s infinite;
     border-left: transparent solid 1px;
-    margin:5px
+    margin:5px;
+    font-size: 18px;
+    font-family: Libre Baskerville, Baskerville, Georgia, serif;
 }
 @keyframes blink-empty {
     50% {border-left: 1px solid #333;}
