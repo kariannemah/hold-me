@@ -52,5 +52,24 @@ post '/' do
   link_result = link_page.forms[0].submit
   @link_url = link_result.uri
 
+  @ebook_urls = {}
+  @urls.each do |key,value|
+    if key.to_s.split.include?('[electronic')
+      @ebook_urls[key] = value
+    end
+  end
+
+  @ebook_urls.each do |key, value|
+    ebook_page = Nokogiri::HTML(open(@ebook_urls[key]))
+    @ebook_urls[key] = ebook_page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
+  end
+
+  #third_party_page = Nokogiri::HTML(open(@ebook_urls[key]))
+  #key = :"Infinite jest [electronic resource] : a novel / David Foster Wallace."
+  #library_copies = third_party_page.css('div.row.details-lib-copies').children[3].children[0].children[0].to_s
+
+  # for overdrive page - grab # of holds
+  # for axis 360 page -  grab # of holds
+
   erb :index
 end

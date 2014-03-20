@@ -5,23 +5,28 @@
   <div class="search">
   Enter a title, author, or keyword(s):
   <form action="/" method="post">
-    <input type="text" name="book">
-    <button type="submit" class="btn">Search!</button>
+    <input type="text" name="book" id="dotted"/>
+    <br>
+    <input type="submit" value="Search" class="search-button">
   </form>
   <br>
-  <% if defined?(@book) %>
+  <% if defined?(@book) && @book != '' %>
     You searched for: "<%= @book %>"
     <br>
   How many holds are on this book or those like it?
   <% end %>
+
+    <% if @book == '' %>
+    Don't be shy! Search for anything.
+    <% end %>
   </div>
   <ul>
     <% if defined?(@books) %>
       <% @books.each do |key, value| %>
         <li>
-        <a href=<%= @urls[key].to_s %>"><%= key.to_s %></a><br>
-          <% if key.to_s.split.include?('[electronic') && value == '' %>
-            Check Overdrive for possible holds.
+        <a href=<%= @urls[key].to_s %>><%= key.to_s %></a><br>
+          <% if key.to_s.split.include?('[electronic') %>
+            <a href=<%= @ebook_urls[key] %>>Check Overdrive or Axis360 for possible holds.</a>
           <% elsif value == '' %>
             No holds: Check the shelves!
           <% else %>
@@ -33,7 +38,7 @@
   </ul>
 
     <div class="search">
-      <% if defined?(@book) %>
+      <% if defined?(@book) && @book != '' %>
         Don't see the book you're looking for? <a href=<%=@link_url %>>Search for "<%= @book %>" on Link+.</a>**
       <% end %>
     </div>
