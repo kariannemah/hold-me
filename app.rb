@@ -54,22 +54,43 @@ post '/' do
 
   @ebook_urls = {}
   @urls.each do |key,value|
-    if key.to_s.split.include?('[electronic')
+    if key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)')
       @ebook_urls[key] = value
     end
   end
 
-  @ebook_urls.each do |key, value|
-    ebook_page = Nokogiri::HTML(open(@ebook_urls[key]))
-    @ebook_urls[key] = ebook_page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
+  unless @ebook_urls == {}
+    @ebook_urls.each do |key, value|
+      ebook_page = Nokogiri::HTML(open(value))
+      @ebook_urls[key] = ebook_page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
+    end
+
+    ebook_holds = @ebook_urls
+
+    @eholds = {}
+
+    ebook_holds.each do |key, value|
+      third_party_page =  Nokogiri::HTML(open(value))
+      if ! /overdrive/.match(value).nil?
+        # overdrive
+        @copies = /\d/.match(third_party_page.css('ul.copies-expand.tog-close.details-ul-exp').children[2].text).to_s
+        @holds = /\d/.match(third_party_page.css('ul.copies-expand.tog-close.details-ul-exp').children[4].text).to_s
+      elsif ! /axis/.match(value).nil?
+        # axis 360
+        @copies = /\d/.match(third_party_page.css('div.ActionPanelInfo').children[1].text).to_s
+        if /\d/.match(third_party_page.css('div.ActionPanelInfo').children[5].text).to_s == ''
+          @holds = '0'
+        else
+          @holds = /\d/.match(third_party_page.css('div.ActionPanelInfo').children[5].text).to_s
+        end
+      else
+        # other ebook platforms
+        @holds = ''
+        @copies = ''
+      end
+      @eholds[value] = [@holds, @copies]
+    end
   end
-
-  #third_party_page = Nokogiri::HTML(open(@ebook_urls[key]))
-  #key = :"Infinite jest [electronic resource] : a novel / David Foster Wallace."
-  #library_copies = third_party_page.css('div.row.details-lib-copies').children[3].children[0].children[0].to_s
-
-  # for overdrive page - grab # of holds
-  # for axis 360 page -  grab # of holds
 
   erb :index
 end

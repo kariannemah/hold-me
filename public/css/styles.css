@@ -18,7 +18,12 @@ p a:visted {color: #ff00ff;}
 a:active {color: #C9C5DB;}
 a:hover {color: #C9C5DB;}
 
-span {background-color: #C9C5DB}
+span {
+    background-color: #C9C5DB;
+}
+span a:hover {
+    color: black;
+}
 
 hr { display: block; height: 1px;
     border: 0; border-top: 1px solid #C9C5DB;
@@ -31,27 +36,19 @@ hr { display: block; height: 1px;
     border-bottom: 2px dotted;
 }
 
-input, input:focus {
-    border:none;
-}
 input {
-    animation: blink-empty 1s infinite;
-    border-left: transparent solid 1px;
     margin:5px;
     font-size: 18px;
     font-family: Libre Baskerville, Baskerville, Georgia, serif;
-}
-@keyframes blink-empty {
-    50% {border-left: 1px solid #333;}
 }
 
 .search-button {
     position: relative;
     vertical-align: top;
-    width: 10%;
-    height: 20px;
+    width: 15%;
+    height: 22px;
     padding: 0;
-    font-size: 16px;
+    font-size: 18px;
     color: black;
     text-align: center;
     background: #C9C5DB;

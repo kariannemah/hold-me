@@ -2,6 +2,7 @@
   <div class="text">
 
   <h2>Hold me, I'm a book*</h2>
+
   <div class="search">
   Enter a title, author, or keyword(s):
   <form action="/" method="post">
@@ -20,13 +21,30 @@
     Don't be shy! Search for anything.
     <% end %>
   </div>
+
   <ul>
     <% if defined?(@books) %>
       <% @books.each do |key, value| %>
         <li>
         <a href=<%= @urls[key].to_s %>><%= key.to_s %></a><br>
-          <% if key.to_s.split.include?('[electronic') %>
-            <a href=<%= @ebook_urls[key] %>>Check Overdrive or Axis360 for possible holds.</a>
+          <% if key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)')  %>
+            <% if @ebook_urls[key].split('.').include?('overdrive') %>
+              <span>
+                <a href=<%= @ebook_urls[key] %>>
+                  <%= @eholds[@ebook_urls[key]][0] %> holds on <%= @eholds[@ebook_urls[key]][1] %> copies on ebook platform OverDrive
+                </a>
+              </span>
+            <% elsif @ebook_urls[key].split('.').include?('axis360') %>
+              <span>
+                <a href=<%= @ebook_urls[key] %>>
+                <%= @eholds[@ebook_urls[key]][0] %> holds on <%= @eholds[@ebook_urls[key]][1] %> copies on ebook platform Axis360
+              </a>
+              </span>
+            <% elsif @ebook_urls[key].split('.').include?('serialssolutions') %>
+              This title is an online journal <a href=<%= @ebook_urls[key] %>>available here.</a>
+            <% else %>
+              <a href=<%= @ebook_urls[key] %>>Check the ebook platform for possible holds.</a>
+            <% end %>
           <% elsif value == '' %>
             No holds: Check the shelves!
           <% else %>
@@ -39,7 +57,7 @@
 
     <div class="search">
       <% if defined?(@book) && @book != '' %>
-        Don't see the book you're looking for? <a href=<%=@link_url %>>Search for "<%= @book %>" on Link+.</a>**
+        Don't see the book you're looking for? <a href=<%=@link_url %>>Look up "<%= @book %>" on Link+.</a>**
       <% end %>
     </div>
   </div>
