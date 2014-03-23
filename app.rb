@@ -24,7 +24,7 @@ post '/' do
   url = result.uri
   page = Nokogiri::HTML(open(url))
 
-  if page.css('span.bibHolds').text == ""
+  if page.css('span.bibHolds').text == ''
     book_links = []
     result.links.each do |link|
       if link.text.include? 'Is it available?'

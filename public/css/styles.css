@@ -31,7 +31,7 @@ hr { display: block; height: 1px;
 
 #dotted
 {
-    width: 30%;
+    width: 50%;
     border:0;
     border-bottom: 2px dotted;
 }
