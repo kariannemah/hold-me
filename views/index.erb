@@ -26,43 +26,38 @@
     <% if defined?(@books) %>
       <% @books.each do |key, value| %>
         <li>
-        <a href=<%= @urls[key].to_s %>><%= key.to_s %></a><br>
-          <% if key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)')  %>
-            <% if @ebook_urls[key].split('.').include?('overdrive') %>
-              <span>
-                <a href=<%= @ebook_urls[key] %>>
-                  <%= @eholds[@ebook_urls[key]][0] %> holds on <%= @eholds[@ebook_urls[key]][1] %> copies on ebook platform OverDrive
-                </a>
-              </span>
-            <% elsif @ebook_urls[key].split('.').include?('axis360') %>
-              <span>
-                <a href=<%= @ebook_urls[key] %>>
-                <%= @eholds[@ebook_urls[key]][0] %> holds on <%= @eholds[@ebook_urls[key]][1] %> copies on ebook platform Axis360
-              </a>
-              </span>
-            <% elsif @ebook_urls[key].split('.').include?('serialssolutions') %>
-              This title is an online journal <a href=<%= @ebook_urls[key] %>>available here.</a>
-            <% else %>
-              <a href=<%= @ebook_urls[key] %>>Check the ebook platform for possible holds.</a>
-            <% end %>
-          <% elsif value == '' %>
-            No holds: Check the shelves!
+          <a href=<%= @books[key][:sfpl_url].to_s %>><%= key%></a>
+        <br>
+
+        <% if ! @books[key][:ebook].nil? %>
+          <% if @books[key][:ebook][:url].split('.').include?('serialssolutions') %>
+            This title is an online journal <a href=<%= @books[key][:ebook][:url] %>>available here.</a>
+          <% elsif @books[key][:ebook][:copies] == '' %>
+            <a href=<%= @books[key][:ebook][:url] %>>Check the ebook platform for possible holds.</a>
           <% else %>
-            <span><%= value %></span>
+            <a href=<%= @books[key][:ebook][:url].to_s %>>
+            <%= @books[key][:ebook][:holds] %> holds on <%= @books[key][:ebook][:copies] %> copies
+            </a>
           <% end %>
+        <% elsif @books[key][:holds]== '' %>
+           No holds. Check the shelves!
+        <% else %>
+           <span><%= @books[key][:holds] %></span>
+        <% end %>
         </li>
-       <% end %>
-     <% end %>
+      <% end %>
+    <% end %>
   </ul>
 
     <div class="search">
       <% if defined?(@book) && @book != '' %>
-        Don't see the book you're looking for? <a href=<%=@link_url %>>Look up "<%= @book %>" on Link+.</a>**
+        Don't see the book you're looking for?<br/>
+        <a href="<%= @link_plus_url%>">Look up "<%= @book %>" on Link+.</a>**
       <% end %>
     </div>
   </div>
 
-  <div class="text">
+  <footer>
     <hr>
     <p> * at the <a href="http://sfpl.org">San Francisco Public Library</a><br>
     </p>
@@ -75,5 +70,5 @@
    <p>
      Brought to you by <a href="http://twitter.com/kari_mah">Kari Mah</a>, inveterate requester of library books.
    </p>
-  </div>
+  </footer>
 </div>

@@ -8,18 +8,17 @@ get '/' do
   erb :index
 end
 
-
 post '/' do
+
   @book = params[:book]
 
   agent = Mechanize.new
   page = agent.get('http://sfpl.org')
   page.forms[0].fields[1].value = @book
   result = page.forms[0].submit
-  homepage = "http://sflib1.sfpl.org"
+  homepage = 'http://sflib1.sfpl.org'
 
   @books = {}
-  @urls = {}
 
   url = result.uri
   page = Nokogiri::HTML(open(url))
@@ -37,58 +36,47 @@ post '/' do
     book_links.each do |url|
       page = Nokogiri::HTML(open(url))
       title = page.css('td.bibInfoData').text.split("\n")[1].to_sym
-      @books[title] = page.css('span.bibHolds').text
-      @urls[title] = url
+      @books[title] = {:sfpl_url => url}
+      @books[title][:holds] = page.css('span.bibHolds').text
     end
   else
     title = page.css('td.bibInfoData').text.split("\n")[1].to_sym
-    @books[title] = page.css('span.bibHolds').text
-    @urls[title] = url
+    @books[title] = {:sfpl_url => url}
+    @books[title][:holds] = page.css('span.bibHolds').text
   end
 
   link_agent = Mechanize.new
   link_page = link_agent.get('http://csul.iii.com/')
   link_page.forms[0].fields[1].value = @book
   link_result = link_page.forms[0].submit
-  @link_url = link_result.uri
+  @link_plus_url = link_result.uri
 
-  @ebook_urls = {}
-  @urls.each do |key,value|
-    if key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)')
-      @ebook_urls[key] = value
-    end
-  end
+  @books.each do |key,value|
+    if value.is_a? Hash
+      if key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)')
+        ebook_page = Nokogiri::HTML(open(value[:sfpl_url]))
+        platform_url = ebook_page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
+        value[:ebook] = {:url => platform_url }
+        third_party_page =  Nokogiri::HTML(open(platform_url))
 
-  unless @ebook_urls == {}
-    @ebook_urls.each do |key, value|
-      ebook_page = Nokogiri::HTML(open(value))
-      @ebook_urls[key] = ebook_page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
-    end
-
-    ebook_holds = @ebook_urls
-
-    @eholds = {}
-
-    ebook_holds.each do |key, value|
-      third_party_page =  Nokogiri::HTML(open(value))
-      if ! /overdrive/.match(value).nil?
-        # overdrive
-        @copies = /\d/.match(third_party_page.css('ul.copies-expand.tog-close.details-ul-exp').children[2].text).to_s
-        @holds = /\d/.match(third_party_page.css('ul.copies-expand.tog-close.details-ul-exp').children[4].text).to_s
-      elsif ! /axis/.match(value).nil?
-        # axis 360
-        @copies = /\d/.match(third_party_page.css('div.ActionPanelInfo').children[1].text).to_s
-        if /\d/.match(third_party_page.css('div.ActionPanelInfo').children[5].text).to_s == ''
-          @holds = '0'
-        else
-          @holds = /\d/.match(third_party_page.css('div.ActionPanelInfo').children[5].text).to_s
-        end
-      else
-        # other ebook platforms
-        @holds = ''
-        @copies = ''
+          if ! /overdrive/.match(platform_url).nil?
+            # overdrive
+            value[:ebook][:copies] = /\d/.match(third_party_page.css('ul.copies-expand.tog-close.details-ul-exp').children[2].text).to_s
+            value[:ebook][:holds] = /\d/.match(third_party_page.css('ul.copies-expand.tog-close.details-ul-exp').children[4].text).to_s
+          elsif ! /axis/.match(platform_url).nil?
+            # axis 360
+            value[:ebook][:copies] = /\d/.match(third_party_page.css('div.ActionPanelInfo').children[1].text).to_s
+            if /\d/.match(third_party_page.css('div.ActionPanelInfo').children[5].text).to_s == ''
+              value[:ebook][:holds] = '0'
+            else
+              value[:ebook][:holds] = /\d/.match(third_party_page.css('div.ActionPanelInfo').children[5].text).to_s
+            end
+          else
+            # other ebook platforms
+            value[:ebook][:holds] = ''
+            value[:ebook][:copies] = ''
+          end
       end
-      @eholds[value] = [@holds, @copies]
     end
   end
 

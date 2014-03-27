@@ -8,7 +8,13 @@ h2, .search {
 
 .text {
     margin: 0 auto;
-    width: 90%;
+    width: 80%;
+}
+
+footer {
+    margin: 0 auto;
+    width: 80%;
+    font-size: 16px;
 }
 
 ul li {padding-bottom: 6px; line-height: 24px;}
