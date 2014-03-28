@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra'
-require 'nokogiri'
 require 'mechanize'
+require 'nokogiri'
 require 'open-uri'
 
 get '/' do
@@ -12,18 +12,22 @@ post '/' do
 
   @book = params[:book]
 
-  agent = Mechanize.new
-  page = agent.get('http://sfpl.org')
-  page.forms[0].fields[1].value = @book
-  result = page.forms[0].submit
-  homepage = 'http://sflib1.sfpl.org'
+  def search_submitter(search_term, search_url)
+    agent = Mechanize.new
+    page = agent.get(search_url)
+    page.forms[0].fields[1].value = search_term
+    page.forms[0].submit.uri
+  end
 
+  url = search_submitter(@book,'http://sfpl.org')
+
+  @link_plus_url = search_submitter(@book, 'http://csul.iii.com/')
+
+  page = Nokogiri::HTML(open(url))
+  homepage = 'http://sflib1.sfpl.org'
   @books = {}
 
-  url = result.uri
-  page = Nokogiri::HTML(open(url))
-
-  if page.css('span.bibHolds').text == ''
+  if page.css('span.bibHolds').text.empty?
     book_links = []
     result.links.each do |link|
       if link.text.include? 'Is it available?'
@@ -45,11 +49,7 @@ post '/' do
     @books[title][:holds] = page.css('span.bibHolds').text
   end
 
-  link_agent = Mechanize.new
-  link_page = link_agent.get('http://csul.iii.com/')
-  link_page.forms[0].fields[1].value = @book
-  link_result = link_page.forms[0].submit
-  @link_plus_url = link_result.uri
+
 
   @books.each do |key,value|
     if value.is_a? Hash
