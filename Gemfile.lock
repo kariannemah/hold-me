@@ -7,6 +7,9 @@ GEM
     eventmachine (1.0.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
+    linguistics (2.0.3)
+      loggability (~> 0.7)
+    loggability (0.10.1)
     mechanize (2.7.3)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -44,6 +47,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  linguistics
   mechanize
   nokogiri
   sinatra

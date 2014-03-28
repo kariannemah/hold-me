@@ -26,24 +26,36 @@
     <% if defined?(@books) %>
       <% @books.each do |key, value| %>
         <li>
-          <a href=<%= @books[key][:sfpl_url].to_s %>><%= key%></a>
+          <a href=<%= value[:sfpl_url].to_s %>><%= key%></a>
         <br>
 
-        <% if ! @books[key][:ebook].nil? %>
-          <% if @books[key][:ebook][:url].split('.').include?('serialssolutions') %>
-            This title is an online journal <a href=<%= @books[key][:ebook][:url] %>>available here.</a>
-          <% elsif @books[key][:ebook][:copies] == '' %>
-            <a href=<%= @books[key][:ebook][:url] %>>Check the ebook platform for possible holds.</a>
+        <% if value[:ebook] %>
+          <% if value[:ebook][:url].split('.').include?('serialssolutions') %>
+            This title is an online journal <a href=<%= value[:ebook][:url] %>>available here.</a>
+          <% elsif value[:ebook][:copies] == '' %>
+            <a href=<%= value[:ebook][:url] %>>Check the ebook platform for possible holds.</a>
           <% else %>
-            <a href=<%= @books[key][:ebook][:url].to_s %>>
-            <%= @books[key][:ebook][:holds] %> holds on <%= @books[key][:ebook][:copies] %> copies
+            <a href=<%= value[:ebook][:url].to_s %>>
+            <%= value[:ebook][:holds] %>
+            <% if value[:ebook][:holds].to_i == 1 %>
+              hold
+            <% else %>
+              holds
+            <% end %>
+            on <%= value[:ebook][:copies] %>
+            <% if value[:ebook][:copies].to_i == 1 %>
+              copy
+            <% else %>
+              copies
+            <% end %>
             </a>
           <% end %>
-        <% elsif @books[key][:holds]== '' %>
+        <% elsif value[:holds]== '' %>
            No holds. Check the shelves!
         <% else %>
-           <span><%= @books[key][:holds] %></span>
+           <span><%= value[:holds] %></span>
         <% end %>
+
         </li>
       <% end %>
     <% end %>
