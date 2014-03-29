@@ -50,8 +50,7 @@ post '/' do
     get_holds(url)
 
   @books.each do |key,value|
-    title = key.to_s.split
-    if title.include? ('[electronic')  || title.include?('(Online)')
+    if key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)')
       page = Nokogiri::HTML(open(value[:sfpl_url]))
       ebook_platform_url = page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
       value[:ebook] = {url: ebook_platform_url}
