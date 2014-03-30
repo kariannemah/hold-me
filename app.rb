@@ -3,13 +3,14 @@ require 'sinatra'
 require 'mechanize'
 require 'nokogiri'
 require 'open-uri'
+require 'thread'
+
 
 get '/' do
   erb :index
 end
 
 post '/' do
-
   @book = params[:book]
 
   def search_submitter(search_term, search_url)
@@ -42,35 +43,43 @@ post '/' do
   page = Nokogiri::HTML(open(url))
   @books = {}
 
-  (page.css('span.bibHolds').text == '') ?
-    result.links.keep_if { |link| link.text.include? 'Is it available?' }.map do |link|
-      url = 'http://sflib1.sfpl.org' + link.href + '/'
-      get_holds(url)
-    end :
+  if page.css('span.bibHolds').text == ''
+    links = result.links.keep_if { |link| link.text.include? 'Is it available?' }
+    threads = links.map do |link|
+      Thread.new do
+        url = 'http://sflib1.sfpl.org' + link.href + '/'
+        get_holds(url)
+      end
+    end
+    threads.each { |thread| thread.join }
+  else
     get_holds(url)
+  end
 
-  @books.each do |key,value|
-    if key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)')
+  threads = @books.select {|key, value| key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)') }.map do |key,value|
+    Thread.new do
       page = Nokogiri::HTML(open(value[:sfpl_url]))
       ebook_platform_url = page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
       value[:ebook] = {url: ebook_platform_url}
       ebook_page =  Nokogiri::HTML(open(ebook_platform_url))
 
-        if /overdrive/.match(ebook_platform_url)
-          value[:ebook][:copies] = overdrive_hold_info(ebook_page, 2)
-          value[:ebook][:holds] = overdrive_hold_info(ebook_page, 4)
-        elsif /axis/.match(ebook_platform_url)
-          value[:ebook][:copies] = axis_hold_info(ebook_page, 1)
-          (axis_hold_info(ebook_page, 5) == '') ?
-            value[:ebook][:holds] = '0' :
-            value[:ebook][:holds] = axis_hold_info(ebook_page, 5)
-        else
-          # other ebook platforms
-          value[:ebook][:holds] = ''
-          value[:ebook][:copies] = ''
-        end
+      if /overdrive/.match(ebook_platform_url)
+        value[:ebook][:copies] = overdrive_hold_info(ebook_page, 2)
+        value[:ebook][:holds] = overdrive_hold_info(ebook_page, 4)
+      elsif /axis/.match(ebook_platform_url)
+        value[:ebook][:copies] = axis_hold_info(ebook_page, 1)
+        (axis_hold_info(ebook_page, 5) == '') ?
+          value[:ebook][:holds] = '0' :
+          value[:ebook][:holds] = axis_hold_info(ebook_page, 5)
+      else
+        # other ebook platforms
+        value[:ebook][:holds] = ''
+        value[:ebook][:copies] = ''
+      end
     end
   end
+
+  threads.each { |thread| thread.join }
 
   erb :index
 end
