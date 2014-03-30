@@ -1,8 +1,6 @@
 TODO:
 
-Speed it up! it's very slow, what with ALL the LOOPING!!
--added a method, but write some other ones
--extract duplicate methods
+using threads now. how do i determine if this is thread safe?
 
 ---------done----------
  add link to checkout the book - done
@@ -31,3 +29,12 @@ take into consideration there are 4 options for digital availability: - done!
 For ebooks
   if holds == 1, make it 'hold' - done!
   if copies == 1, make it 'copies' - done!
+
+pre-thread deliberation: - should I use a task manager? a queue? multiple workers?
+or should I spawn a few threads-done!
+search for IJ now takes 11s vs. 24s
+
+
+Speed it up! it's very slow, what with ALL the LOOPING!!
+-added two method, but write some other ones
+-extract duplicate methods
