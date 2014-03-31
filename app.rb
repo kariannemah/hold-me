@@ -11,8 +11,6 @@ get '/' do
 end
 
 post '/' do
-  @book = params[:book]
-
   def search_submitter(search_term, search_url)
     agent = Mechanize.new
     page = agent.get(search_url)
@@ -27,12 +25,13 @@ post '/' do
     @books[title][:holds] = page.css('span.bibHolds').text
   end
 
-  def overdrive_hold_info(page, dom_element)
-    /\d/.match(page.css('ul.copies-expand.tog-close.details-ul-exp').children[dom_element].text).to_s
-  end
-
-  def axis_hold_info(page, dom_element)
-    /\d/.match(page.css('div.ActionPanelInfo').children[dom_element].text).to_s
+  def get_hold_info(platform, page, number_of_books)
+    if platform == 'overdrive'
+      element = 'ul.copies-expand.tog-close.details-ul-exp'
+    else
+      element = 'div.ActionPanelInfo'
+    end
+    /\d/.match(page.css(element).children[number_of_books].text).to_s
   end
 
   result = search_submitter(@book,'http://sfpl.org')
@@ -64,13 +63,13 @@ post '/' do
       ebook_page =  Nokogiri::HTML(open(ebook_platform_url))
 
       if /overdrive/.match(ebook_platform_url)
-        value[:ebook][:copies] = overdrive_hold_info(ebook_page, 2)
-        value[:ebook][:holds] = overdrive_hold_info(ebook_page, 4)
+        value[:ebook][:copies] = get_hold_info('overdrive', ebook_page, 2)
+        value[:ebook][:holds] = get_hold_info('overdrive', ebook_page, 4)
       elsif /axis/.match(ebook_platform_url)
-        value[:ebook][:copies] = axis_hold_info(ebook_page, 1)
-        (axis_hold_info(ebook_page, 5) == '') ?
+        value[:ebook][:copies] = get_hold_info('axis', ebook_page, 1)
+        (get_hold_info('axis', ebook_page, 5) == '') ?
           value[:ebook][:holds] = '0' :
-          value[:ebook][:holds] = axis_hold_info(ebook_page, 5)
+          value[:ebook][:holds] = get_hold_info('axis', ebook_page, 5)
       else
         # other ebook platforms
         value[:ebook][:holds] = ''
