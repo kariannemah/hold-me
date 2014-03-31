@@ -1,6 +1,13 @@
 TODO:
 
-using threads now. how do i determine if this is thread safe?
+- I'm using threads now. how do i determine if this is thread safe? maybe i should use a mutex
+
+- span tags on ebook holds if holds > 0
+
+- write unit tests
+- traverse the DOM more effectively
+- wrap the methods in a class or two
+- rename variables to make them clearer
 
 ---------done----------
  add link to checkout the book - done

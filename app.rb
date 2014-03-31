@@ -34,10 +34,10 @@ post '/' do
     /\d/.match(page.css(element).children[number_of_books].text).to_s
   end
 
-  result = search_submitter(@book,'http://sfpl.org')
+  result = search_submitter(@search_term,'http://sfpl.org')
   url = result.uri
 
-  @link_plus_url = search_submitter(@book, 'http://csul.iii.com/')
+  @link_plus_url = search_submitter(@search_term, 'http://csul.iii.com/')
 
   page = Nokogiri::HTML(open(url))
   @books = {}

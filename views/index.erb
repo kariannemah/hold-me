@@ -11,13 +11,13 @@
     <input type="submit" value="Search" class="search-button">
   </form>
   <br>
-  <% if defined?(@book) && @book != '' %>
-    You searched for: "<%= @book %>"
+  <% if defined?(@search_term) && @search_term != '' %>
+    You searched for: "<%= @search_term %>"
     <br>
   How many holds are on this book or those like it?
   <% end %>
 
-    <% if @book == '' %>
+    <% if @search_term == '' %>
     Don't be shy! Search for anything.
     <% end %>
   </div>
@@ -62,9 +62,9 @@
   </ul>
 
     <div class="search">
-      <% if defined?(@book) && @book != '' %>
+      <% if defined?(@search_term) && @search_term != '' %>
         Don't see the book you're looking for?<br/>
-        <a href="<%= @link_plus_url%>">Look up "<%= @book %>" on Link+.</a>**
+        <a href="<%= @link_plus_url%>">Look up "<%= @search_term %>" on Link+.</a>**
       <% end %>
     </div>
   </div>
