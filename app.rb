@@ -11,6 +11,8 @@ get '/' do
 end
 
 post '/' do
+  @search_term = params[:book]
+
   def search_submitter(search_term, search_url)
     agent = Mechanize.new
     page = agent.get(search_url)
