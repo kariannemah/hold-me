@@ -5,7 +5,6 @@ require 'nokogiri'
 require 'open-uri'
 require 'thread'
 
-
 get '/' do
   erb :index
 end
@@ -27,13 +26,9 @@ post '/' do
     @books[title][:holds] = page.css('span.bibHolds').text
   end
 
-  def get_hold_info(platform, page, number_of_books)
-    if platform == 'overdrive'
+  def get_overdrive_holds(page, number_of_books)
       element = 'ul.copies-expand.tog-close.details-ul-exp'
-    else
-      element = 'div.ActionPanelInfo'
-    end
-    /\d/.match(page.css(element).children[number_of_books].text).to_s
+      /\d/.match(page.css(element).children[number_of_books].text).to_s
   end
 
   result = search_submitter(@search_term,'http://sfpl.org')
@@ -57,30 +52,13 @@ post '/' do
     get_holds(url)
   end
 
-  threads = @books.select {|key, value| key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)') }.map do |key,value|
-    Thread.new do
-      page = Nokogiri::HTML(open(value[:sfpl_url]))
-      ebook_platform_url = page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
-      value[:ebook] = {url: ebook_platform_url}
-      ebook_page =  Nokogiri::HTML(open(ebook_platform_url))
-
-      if /overdrive/.match(ebook_platform_url)
-        value[:ebook][:copies] = get_hold_info('overdrive', ebook_page, 2)
-        value[:ebook][:holds] = get_hold_info('overdrive', ebook_page, 4)
-      elsif /axis/.match(ebook_platform_url)
-        value[:ebook][:copies] = get_hold_info('axis', ebook_page, 1)
-        (get_hold_info('axis', ebook_page, 5) == '') ?
-          value[:ebook][:holds] = '0' :
-          value[:ebook][:holds] = get_hold_info('axis', ebook_page, 5)
-      else
-        # other ebook platforms
-        value[:ebook][:holds] = ''
-        value[:ebook][:copies] = ''
-      end
-    end
+  @books.select {|key, value| key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)') }.map do |key,value|
+    page = Nokogiri::HTML(open(value[:sfpl_url]))
+    ebook_platform_url = page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
+    value[:ebook] = {url: ebook_platform_url}
+    value[:ebook][:copies] = ''
+    value[:ebook][:holds] = ''
   end
-
-  threads.each { |thread| thread.join }
 
   erb :index
 end
