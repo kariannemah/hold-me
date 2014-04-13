@@ -52,13 +52,17 @@ post '/' do
     get_holds(url)
   end
 
-  @books.select {|key, value| key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)') }.map do |key,value|
-    page = Nokogiri::HTML(open(value[:sfpl_url]))
-    ebook_platform_url = page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
-    value[:ebook] = {url: ebook_platform_url}
-    value[:ebook][:copies] = ''
-    value[:ebook][:holds] = ''
+  threads = @books.select {|key, value| key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)') }.map do |key,value|
+    Thread.new do
+      page = Nokogiri::HTML(open(value[:sfpl_url]))
+      ebook_platform_url = page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
+      value[:ebook] = {url: ebook_platform_url}
+      value[:ebook][:copies] = ''
+      value[:ebook][:holds] = ''
+    end
   end
+  
+  threads.each { |thread| thread.join }
 
   erb :index
 end
