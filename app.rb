@@ -12,7 +12,7 @@ end
 post '/' do
   @search_term = params[:book]
 
-  def search_submitter(search_term, search_url)
+  def submit_search(search_term, search_url)
     agent = Mechanize.new
     page = agent.get(search_url)
     page.forms[0].fields[1].value = search_term
@@ -31,10 +31,15 @@ post '/' do
       /\d/.match(page.css(element).children[number_of_books].text).to_s
   end
 
-  result = search_submitter(@search_term,'http://sfpl.org')
+  # method to retrieve axis360 holds
+   # if there is a current hold, div id is X
+   # else no holds, div id is Y
+
+
+  result = submit_search(@search_term,'http://sfpl.org')
   url = result.uri
 
-  @link_plus_url = search_submitter(@search_term, 'http://csul.iii.com/')
+  @link_plus_url = submit_search(@search_term, 'http://csul.iii.com/')
 
   page = Nokogiri::HTML(open(url))
   @books = {}
@@ -61,7 +66,7 @@ post '/' do
       value[:ebook][:holds] = ''
     end
   end
-  
+
   threads.each { |thread| thread.join }
 
   erb :index
