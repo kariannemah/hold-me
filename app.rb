@@ -26,15 +26,35 @@ post '/' do
     @books[title][:holds] = page.css('span.bibHolds').text
   end
 
-  def get_overdrive_holds(page, number_of_books)
+  def get_overdrive_holds(page)
+      open_page = Nokogiri::HTML(open(page))
       element = 'ul.copies-expand.tog-close.details-ul-exp'
-      /\d/.match(page.css(element).children[number_of_books].text).to_s
+      /\d/.match(open_page.css(element).children[4].text).to_s
   end
 
-  # method to retrieve axis360 holds
-   # if there is a current hold, div id is X
-   # else no holds, div id is Y
+  def get_overdrive_copies(page)
+    open_page = Nokogiri::HTML(open(page))
+    element = 'ul.copies-expand.tog-close.details-ul-exp'
+    /\d/.match(open_page.css(element).children[2].text).to_s
+  end
 
+  def get_axis_copies(page)
+    open_page = Nokogiri::HTML(open(page))
+    if ! open_page.css('div.DetailInfoHold.CopiesInfo').children[1].nil?
+      /\d/.match(open_page.css('div.DetailInfoHold.CopiesInfo').children[1].text).to_s
+    else
+       /\d/.match(open_page.css('div.DetailInfo.CopiesInfo').children[1].text).to_s
+    end
+  end
+
+  def get_axis_holds(page)
+    open_page = Nokogiri::HTML(open(page))
+    if open_page.css('div.DetailInfoHold.CopiesInfo').children[1].nil?
+      '0'
+    else
+      /\d/.match(open_page.css('div.DetailInfoHold.CopiesInfo').children[6].text).to_s
+    end
+  end
 
   result = submit_search(@search_term,'http://sfpl.org')
   url = result.uri
@@ -62,8 +82,17 @@ post '/' do
       page = Nokogiri::HTML(open(value[:sfpl_url]))
       ebook_platform_url = page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
       value[:ebook] = {url: ebook_platform_url}
-      value[:ebook][:copies] = ''
-      value[:ebook][:holds] = ''
+
+      if /overdrive/.match(ebook_platform_url)
+        value[:ebook][:copies] = get_overdrive_copies(ebook_platform_url)
+        value[:ebook][:holds] = get_overdrive_holds(ebook_platform_url)
+      elsif /axis/.match(ebook_platform_url)
+        value[:ebook][:copies] = get_axis_copies(ebook_platform_url)
+        value[:ebook][:holds] = get_axis_holds(ebook_platform_url)
+      else
+        value[:ebook][:copies] = ''
+        value[:ebook][:holds] = ''
+      end
     end
   end
 
