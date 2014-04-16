@@ -28,7 +28,6 @@
         <li>
           <a href=<%= value[:sfpl_url].to_s %>><%= key%></a>
         <br>
-
         <% if value[:ebook] %>
           <% if value[:ebook][:url].split('.').include?('serialssolutions') %>
             This title is an online journal <a href=<%= value[:ebook][:url] %>>available here.</a>
