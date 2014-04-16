@@ -1,5 +1,7 @@
 TODO:
 
+- what if there are zero holds, but none available? say "place a hold now" instead of "0 holds"
+
 - I'm using threads now. how do i determine if this is thread safe? maybe i should use a mutex
 
 - span tags on ebook holds if holds > 0
@@ -35,7 +37,7 @@ take into consideration there are 4 options for digital availability: - done!
 
 For ebooks
   if holds == 1, make it 'hold' - done!
-  if copies == 1, make it 'copies' - done!
+  if copies == 1, make it 'copy' - done!
 
 pre-thread deliberation: - should I use a task manager? a queue? multiple workers?
 or should I spawn a few threads-done!
