@@ -28,22 +28,20 @@ post '/' do
 
   def get_overdrive_holds(page)
       open_page = Nokogiri::HTML(open(page))
-      element = 'ul.copies-expand.tog-close.details-ul-exp'
-      /\d/.match(open_page.css(element).children[4].text).to_s
+      /\d/.match(open_page.css('ul.copies-expand.tog-close.details-ul-exp').children[4].text).to_s
   end
 
   def get_overdrive_copies(page)
     open_page = Nokogiri::HTML(open(page))
-    element = 'ul.copies-expand.tog-close.details-ul-exp'
-    /\d/.match(open_page.css(element).children[2].text).to_s
+    /\d/.match(open_page.css('ul.copies-expand.tog-close.details-ul-exp div.row.details-lib-copies').text).to_s
   end
 
   def get_axis_copies(page)
     open_page = Nokogiri::HTML(open(page))
-    if ! open_page.css('div.DetailInfoHold.CopiesInfo').children[1].nil?
-      /\d/.match(open_page.css('div.DetailInfoHold.CopiesInfo').children[1].text).to_s
+    if open_page.css('div.DetailInfoHold.CopiesInfo').children[1].nil?
+      /\d/.match(open_page.css('div.DetailInfo.CopiesInfo').children[1].text).to_s
     else
-       /\d/.match(open_page.css('div.DetailInfo.CopiesInfo').children[1].text).to_s
+      /\d/.match(open_page.css('div.DetailInfoHold.CopiesInfo').children[1].text).to_s
     end
   end
 
@@ -80,7 +78,7 @@ post '/' do
   threads = @books.select {|key, value| key.to_s.split.include?('[electronic') || key.to_s.split.include?('(Online)') }.map do |key,value|
     Thread.new do
       page = Nokogiri::HTML(open(value[:sfpl_url]))
-      ebook_platform_url = page.css('table.bibLinks').first.children[1].children[0].children[1].attributes['href'].value
+      ebook_platform_url = page.css('table.bibLinks tr td').children[1].attributes['href'].value
       value[:ebook] = {url: ebook_platform_url}
 
       if /overdrive/.match(ebook_platform_url)
