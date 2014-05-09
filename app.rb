@@ -57,7 +57,7 @@ post '/' do
   result = submit_search(@search_term,'http://sfpl.org')
   url = result.uri
 
-  @link_plus_url = submit_search(@search_term, 'http://csul.iii.com/')
+  @link_plus_url = submit_search(@search_term, 'http://csul.iii.com/').uri
 
   page = Nokogiri::HTML(open(url))
   @books = {}
