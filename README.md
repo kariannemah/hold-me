@@ -12,8 +12,8 @@ to another page.
 I wanted to speed up the process between querying the catalog and requesting a hold. With Hold Me, a user can search for a book, keyword,
 or author and view the availability of titles in the search results--all on one page.
 
-A query returns the results from the catalog: the titles and their respective hold information, 
-the number of copies the library owns and the number of holds that are currently on the title.
-These results include ebooks from the ebook platorms Axis360 and OverDrive. Because OverDrive and Axis360 makes their APIs available 
+A query returns the results from the catalog: the titles and their respective hold information (e.g.,
+the number of copies the library owns and the number of holds that are currently on the title).
+These results include ebooks from the ebook platforms Axis360 and OverDrive. Because OverDrive and Axis360 makes their APIs available 
 only to institutional partners, I retrieve the hold information for 
-an ebook with a script that scrapes OverDrive or Axis360, depending where the book is.
+an ebook by scraping OverDrive or Axis360, depending on where the book is.
