@@ -6,8 +6,7 @@ Using the SFPL catalog, though, can be a bit of a pain.
 
 [Take this for example.](https://sflib1.sfpl.org/search~S1/?searchtype=X&searcharg=%22smitten+kitchen%22&searchscope=1&sortdropdown=-&SORT=D&extended=0&SUBMIT=Search)
 
-To determine whether this book is available now, you must click through
-to another page. 
+To determine whether this book is available now, you must click on multiple "Is this available" buttons that take you to another page.
 
 I wanted to speed up the process between querying the catalog and requesting a hold. With Hold Me, a user can search for a book, keyword,
 or author and view the availability of titles in the search results--all on one page.
