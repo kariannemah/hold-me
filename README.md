@@ -10,11 +10,10 @@ To determine whether this book is available now, you must click through
 to another page. 
 
 I wanted to speed up the process between querying the catalog and requesting a hold. With Hold Me, a user can search for a book, keyword,
-or author and see the availability of returned titles--all on one page.
+or author and view the availability of titles in the search results--all on one page.
 
-A query returns the results from the catalog: the titles and their respective hold information
-(# of holds and # of copies). These results include ebooks from the ebook platorms Axis360 and OverDrive.
-
-Because OverDrive makes its API available only to institutional partners, I retrieve the hold information for 
-each ebook with a script that scrapes the OverDrive ebook page. The script also scrapes Axis360 for availability of books
-on that platform.
+A query returns the results from the catalog: the titles and their respective hold information, 
+the number of copies the library owns and the number of holds that are currently on the title.
+These results include ebooks from the ebook platorms Axis360 and OverDrive. Because OverDrive and Axis360 makes their APIs available 
+only to institutional partners, I retrieve the hold information for 
+an ebook with a script that scrapes OverDrive or Axis360, depending where the book is.
