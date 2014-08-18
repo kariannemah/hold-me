@@ -1,7 +1,7 @@
 Hold Me, I'm a book
 =======
 
-Since the age of three, I've been an active patron of the San Francisco Public Library (SFPL). 
+I've been an active patron of the San Francisco Public Library (SFPL) since 1989. 
 Using the SFPL catalog, though, can be a bit of a pain.
 
 [Take this for example.](https://sflib1.sfpl.org/search~S1/?searchtype=X&searcharg=%22smitten+kitchen%22&searchscope=1&sortdropdown=-&SORT=D&extended=0&SUBMIT=Search)
