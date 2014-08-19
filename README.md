@@ -12,7 +12,7 @@ I wanted to speed up the process between querying the catalog and requesting a h
 or author and view the availability of titles in the search results--all on one page.
 
 A query returns the results from the catalog: the titles and their respective hold information (e.g.,
-the number of copies the library owns and the number of holds that are currently on the title).
+the number of copies the library owns and the number of holds on the copies).
 These results include ebooks from the ebook platforms Axis360 and OverDrive. Because OverDrive and Axis360 makes their APIs available 
 only to institutional partners, I retrieve the hold information for 
 an ebook by scraping OverDrive or Axis360, depending on where the book is.
