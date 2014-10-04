@@ -28,7 +28,7 @@ post '/' do
 
   def get_overdrive_holds(page)
       open_page = Nokogiri::HTML(open(page))
-      /\d/.match(open_page.css('ul.copies-expand.tog-close.details-ul-exp').children[4].text).to_s
+      /\d/.match(open_page.css('ul.copies-expand.tog-close.details-ul-exp').children[1].text).to_s
   end
 
   def get_overdrive_copies(page)
