@@ -4,5 +4,8 @@ gem 'sinatra'
 gem 'nokogiri'
 gem 'mechanize'
 gem 'json'
+gem 'oj'
+gem 'oj_mimic_json'
 gem 'thin'
+
 

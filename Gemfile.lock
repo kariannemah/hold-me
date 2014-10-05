@@ -24,6 +24,8 @@ GEM
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     ntlm-http (0.1.1)
+    oj (2.10.2)
+    oj_mimic_json (1.0.1)
     rack (1.5.2)
     rack-protection (1.5.2)
       rack
@@ -48,5 +50,7 @@ DEPENDENCIES
   json
   mechanize
   nokogiri
+  oj
+  oj_mimic_json
   sinatra
   thin
