@@ -36,16 +36,16 @@
           <% else %>
             <a href=<%= value[:ebook][:url].to_s %>>
             <%= value[:ebook][:holds] %>
-            <% if value[:ebook][:holds].to_i == 1 %>
+            <% if value[:ebook][:holds] == '1' %>
               hold
             <% else %>
               holds
             <% end %>
             on <%= value[:ebook][:copies] %>
-            <% if value[:ebook][:copies].to_i == 1 %>
-              copy
+            <% if value[:ebook][:copies] == '1' %>
+              copy.
             <% else %>
-              copies
+              copies.
             <% end %>
             </a>
           <% end %>
