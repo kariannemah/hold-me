@@ -1,7 +1,5 @@
 require 'rubygems'
-require 'bundler'
+require 'sinatra'
+require '~/apps/hold-me/app.rb'
 
-Bundler.require
-
-require './app.rb'
 run Sinatra::Application
