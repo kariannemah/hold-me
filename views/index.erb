@@ -4,7 +4,6 @@
   <h2>Hold me, I'm a book*</h2>
 
   <div class="search">
-    <strong>October 13, 2014: the SFPL catalog is currently out of service. </strong><br>
   Enter a title, author, or keyword(s):
   <form action="/" method="post">
     <input type="text" name="book" id="dotted"/>
@@ -32,7 +31,7 @@
         <% if value[:ebook] %>
           <% if value[:ebook][:url].split('.').include?('serialssolutions') %>
             This title is an online journal <a href=<%= value[:ebook][:url] %>>available here.</a>
-          <% elsif value[:ebook][:copies] == '' %>
+          <% elsif value[:ebook][:copies] == '' || value[:ebook][:url].split('.').include?('overdrive') %>
             <a href=<%= value[:ebook][:url] %>>Check the ebook platform for possible holds.</a>
           <% else %>
             <a href=<%= value[:ebook][:url].to_s %>>
