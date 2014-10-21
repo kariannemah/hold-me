@@ -31,7 +31,7 @@
         <% if value[:ebook] %>
           <% if value[:ebook][:url].split('.').include?('serialssolutions') %>
             This title is an online journal <a href=<%= value[:ebook][:url] %>>available here.</a>
-          <% elsif value[:ebook][:copies] == '' || value[:ebook][:url].split('.').include?('overdrive') %>
+          <% elsif value[:ebook][:copies] == '' %>
             <a href=<%= value[:ebook][:url] %>>Check the ebook platform for possible holds.</a>
           <% else %>
             <a href=<%= value[:ebook][:url].to_s %>>
