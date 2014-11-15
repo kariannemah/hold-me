@@ -18,10 +18,10 @@ an ebook by scraping OverDrive or Axis360, depending on where the book is.
 
 ### Installation
 
-Run <code>git clone</code> https://github.com/kariannemah/hold-me.git to clone this repository to your local machine.
+<code>git clone</code> https://github.com/kariannemah/hold-me.git to copy this repository to your local machine.
 
-Run <code>cd hold-me</code> to move into the cloned repo. Then, run <code>bundle install</code> to install required gems.
+<code>cd hold-me</code> to move into the cloned repo. Then, <code>bundle install</code> to install required gems.
 
-Run the application on your local server with <code>ruby app.rb</code>.
+Start the application on your local server with <code>ruby app.rb</code>.
 
 Visit http://localhost:4567 to view the application.
