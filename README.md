@@ -15,3 +15,13 @@ the number of copies the library owns and the number of holds on the copies).
 These results include ebooks from the ebook platforms Axis360 and OverDrive. Because OverDrive and Axis360 makes their APIs available 
 only to institutional partners, I retrieve the hold information for 
 an ebook by scraping OverDrive or Axis360, depending on where the book is.
+
+### Installation
+
+Run <code>git clone</code> https://github.com/kariannemah/hold-me.git to clone this repository to your local machine.
+
+Run <code>cd hold-me</code> to move into the cloned repo. Then, run <code>bundle install</code> to install required gems.
+
+Run the application on your local server with <code>ruby app.rb</code>.
+
+Visit http://localhost:4567 to view the application.
